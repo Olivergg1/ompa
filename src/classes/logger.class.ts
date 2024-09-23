@@ -18,21 +18,37 @@ export default class Logger {
     console.log(`${colorCode}${joinedStrings}${ESCAPE_CHAR}`)
   }
 
+  public static green(...strings: string[]) {
+    this.printWithColor('green', ...strings)
+  }
+
+  public static cyan(...strings: string[]) {
+    this.printWithColor('cyan', ...strings)
+  }
+
+  public static red(...strings: string[]) {
+    this.printWithColor('red', ...strings)
+  }
+
+  public static yellow(...strings: string[]) {
+    this.printWithColor('yellow', ...strings)
+  }
+
   public static error(...strings: string[]) {
     this.newline()
-    this.printWithColor('red', '!>', ...strings)
+    this.red('!>', ...strings)
   }
 
   public static success(...strings: string[]) {
-    this.printWithColor('green', '>>', ...strings)
+    this.green('>>', ...strings)
   }
 
   public static info(...strings: string[]) {
-    this.printWithColor('cyan', '#>', ...strings)
+    this.cyan('#>', ...strings)
   }
 
   public static warning(...strings: string[]) {
-    this.printWithColor('yellow', '?>', ...strings)
+    this.yellow('?>', ...strings)
   }
 
   public static newline() {

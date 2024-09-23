@@ -36,15 +36,30 @@ async function summarize(): Promise<void> {
 
   Logger.newline()
   Logger.info("Type 'ompa' into your terminal to get started")
+
   Logger.newline()
   Logger.printWithColor('cyan', 'Happy coding!')
+}
+
+async function run() {
+  return new Promise<void>((resolve, reject) => {
+    Logger.info("Running 'Ompa' in CLI...")
+
+    // TODO: Find a way to use execFile or something similar instead
+    exec('ompa', (error, stdout, stderr) => {
+      if (error) return reject(stderr)
+
+      console.log(stdout)
+      resolve()
+    })
+  })
 }
 
 async function setup() {
   try {
     await build()
     await link()
-    summarize()
+    run()
   } catch (error) {
     Logger.error('Something went wrong when setting up project...')
   }
