@@ -28,7 +28,7 @@ async function main(...args: string[]) {
   const commands = await getCommands()
   const command = commands.find(c => c.name === cmd)
 
-  if (!command) return console.log('Command', `'${cmd}'`, 'not found.')
+  if (!command) return Logger.error(`Command '${cmd}'not found.`)
 
   command.execute(rest)
 }
