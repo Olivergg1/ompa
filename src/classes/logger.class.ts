@@ -13,7 +13,9 @@ export default class Logger {
   public static printWithColor(color: Color, ...strings: string[]) {
     const colorCode = colors[color]
 
-    console.log(colorCode, ...strings, ESCAPE_CHAR)
+    const joinedStrings = strings.join(' ')
+
+    console.log(`${colorCode}${joinedStrings}${ESCAPE_CHAR}`)
   }
 
   public static error(...strings: string[]) {
