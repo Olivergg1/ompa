@@ -32,36 +32,22 @@ async function link(): Promise<void> {
 
 async function summarize(): Promise<void> {
   Logger.newline()
-  Logger.success("You're all set!")
+  Logger.green("You're all set!")
 
   Logger.newline()
-  Logger.info("Type 'ompa' into your terminal to get started")
+  Logger.cyan("Type 'ompa' into your terminal to get started")
 
   Logger.newline()
-  Logger.printWithColor('cyan', 'Happy coding!')
-}
-
-async function run() {
-  return new Promise<void>((resolve, reject) => {
-    Logger.info("Running 'Ompa' in CLI...")
-
-    // TODO: Find a way to use execFile or something similar instead
-    exec('ompa', (error, stdout, stderr) => {
-      if (error) return reject(stderr)
-
-      console.log(stdout)
-      resolve()
-    })
-  })
+  Logger.cyan('Happy coding!')
 }
 
 async function setup() {
   try {
     await build()
     await link()
-    run()
+    await summarize()
   } catch (error) {
-    Logger.error('Something went wrong when setting up project...')
+    Logger.error('Something went wrong when setting up the project...')
   }
 }
 
