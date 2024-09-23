@@ -1,8 +1,5 @@
 #!/usr/bin/env node
 
-import { config } from 'dotenv'
-config()
-
 import { getCommands } from './helpers/command.helper'
 import Logger from './classes/logger.class'
 
