@@ -61,16 +61,21 @@ async function execute(args: string[], flags: string[]) {
 
   Logger.success(`Found profile '${profile}'`)
 
-  // Find git directory
   // Determine if config should be updated globally
   const setGlobally = flags.includes('global')
-  const gitDir = findGitDirectory()
 
-  if (!setGlobally && !gitDir) return Logger.error(`Not in a git directory`)
+  if (!setGlobally) {
+    // Find git directory
+    const gitDir = findGitDirectory()
 
-  if (!setGlobally) Logger.success('Found Git directory')
+    if (!gitDir) {
+      Logger.error(`Not in a git directory`)
+      Logger.warning('Did you mean to use --global?')
+      return
+    }
 
-  if (setGlobally) {
+    Logger.success('Found Git directory')
+  } else {
     Logger.warning('Global flag set, trying to update global config...')
   }
 

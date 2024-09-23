@@ -1,9 +1,14 @@
 import { exec } from 'child_process'
 import Logger from '../classes/logger.class'
+import { getArgumentsAndFlags, getCommands } from '../helpers/command.helper'
+import { loadResources } from './loadResources'
+
+const [, , ...argv] = process.argv
+const { args, flags } = getArgumentsAndFlags(argv)
 
 async function build(): Promise<void> {
   return new Promise<void>((resolve, reject) => {
-    Logger.warning('Building project...')
+    Logger.newline().warning('Building project...')
 
     // TODO: Find a way to use execFile or something similar instead
     exec('pnpm build', (error, stdout, stderr) => {
@@ -13,6 +18,14 @@ async function build(): Promise<void> {
       resolve()
     })
   })
+}
+
+async function runCommandSetups() {
+  const commands = await getCommands()
+
+  for (let command of commands) {
+    command.setup(args)
+  }
 }
 
 async function link(): Promise<void> {
@@ -42,7 +55,11 @@ async function summarize(): Promise<void> {
 }
 
 async function setup() {
+  const forceResource = flags.some(f => ['f', 'force'].includes(f))
+
   try {
+    await loadResources(forceResource)
+    await runCommandSetups()
     await build()
     await link()
     await summarize()

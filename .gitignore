@@ -1,3 +1,7 @@
 node_modules
 
 dist
+
+# Keep personal resources private
+# Include default resources
+src/resources/*.resource.json

@@ -53,5 +53,6 @@ export default class Logger {
 
   public static newline() {
     console.log()
+    return this
   }
 }
