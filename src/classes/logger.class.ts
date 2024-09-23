@@ -19,6 +19,7 @@ export default class Logger {
   }
 
   public static error(...strings: string[]) {
+    this.newline()
     this.printWithColor('red', '!>', ...strings)
   }
 
