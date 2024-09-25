@@ -43,11 +43,11 @@ A simple script for managing Git configurations. It reads profiles from a specif
 
 ### `create`
 
-A simple script for managing Git configurations. It reads profiles from a specified config file and updates your Git settings accordingly.
+A simple script for creating projects. Currently supports `Node.js` and `React` (create-react-app).
 
 #### Usage
 
-`gitconf {framework|project} [arguments]`
+`create {framework|project} [arguments]`
 
 - `{profile|project}` Framework or project to create
 - `arguments` Arguments required to setup the specified project
