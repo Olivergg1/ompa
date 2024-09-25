@@ -10,13 +10,26 @@ const PNPM_PATH = 'C:/Users/olive/AppData/Roaming/npm/pnpm.cmd'
 
 const execFilePromise = util.promisify(execFile)
 
+export function findExistingPnpmProject(dir: string) {
+  const packageJsonPath = path.join(dir, 'package.json')
+
+  if (existsSync(packageJsonPath)) return dir
+
+  const parentDir = path.dirname(dir)
+
+  // If we reach the root directory, stop searching
+  if (parentDir === dir) return null
+
+  return findExistingPnpmProject(parentDir)
+}
+
 export async function initializePnpmProject(projectPath: string) {
   const actualPath = path.resolve(projectPath)
 
   // Check for exisiting project
-  const potentialProject = path.resolve(actualPath, 'package.json')
-  if (existsSync(potentialProject)) {
-    return Logger.error('Found an already existing project at path')
+  const potentialProject = findExistingPnpmProject(actualPath)
+  if (potentialProject) {
+    throw `Can not create a project within another project. Found existing project at ${potentialProject}`
   }
 
   Logger.newline().cyan('Creating project at path:', actualPath)
@@ -25,9 +38,9 @@ export async function initializePnpmProject(projectPath: string) {
   await mkdir(actualPath, { recursive: true })
 
   // Init PNPM project
-  const res = await execFilePromise(PNPM_PATH, ['init'], { cwd: actualPath })
-
-  if (res.stderr) throw Logger.error('Failed to initialze PNPM project')
+  await execFilePromise(PNPM_PATH, ['init'], { cwd: actualPath }).catch(() => {
+    throw 'Failed to initialze PNPM project'
+  })
 
   Logger.success('Successfully initalized project!')
 }
