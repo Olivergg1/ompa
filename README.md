@@ -5,6 +5,7 @@
 ## Features (more to come)
 
 - Easy configuration of Git profiles, local and global.
+- Create projects with ease
 - Open source
 
 ## Setup
@@ -29,13 +30,44 @@ This setup script will build the package and link it to the global npm bin, allo
 
 After setup, you can run OMPA commands directly in your terminal. Here’s how to use the included commands:
 
-`gitconf`
+### `gitconf`
 
 A simple script for managing Git configurations. It reads profiles from a specified config file and updates your Git settings accordingly.
 
-### Usage
+#### Usage
 
 `gitconf {profile} [(--global)]`
 
 - `{profile}` Name of profile, read from config file
 - `--global` (Optional) Use this flag to set the configuration globally instead of locally.
+
+### `create`
+
+A simple script for managing Git configurations. It reads profiles from a specified config file and updates your Git settings accordingly.
+
+#### Usage
+
+`gitconf {framework|project} [arguments]`
+
+- `{profile|project}` Framework or project to create
+- `arguments` Arguments required to setup the specified project
+
+#### Example
+
+To create a node.js project with typescript, one can run the following command:
+
+```bash
+ompa create node ./path/to/project express dotenv
+```
+
+The above will generate a project at the relative path from where the command is executed. To create the project in the current directory, use `.` or `./`.
+
+Additional PNPM packages can also be installed by specifying them after the path/name of the project, separated by blankspaces. In the above example, express and dotenv will be added to the project as production dependencies.
+
+If you just want to create a project with a name (similar to 'create-react-app App'), replace the path with your project name. See the example below:
+
+```bash
+ompa create node My-Awesome-App express vite ts-jest
+```
+
+Note: _this is equivalent to writing "./My-Awesome-App"_
