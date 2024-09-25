@@ -9,20 +9,24 @@ import {
 import { createFile } from '../../helpers/file.helper'
 import tsconfig from '../../resources/tsconfig.resource.json'
 import path from 'path'
+import { initializeGit } from '../../helpers/git.helper'
 
 const npxPath = 'C:/Program Files/nodejs/npx.cmd'
 
 const createOptions = {
   react: createReactApp,
   node: createNodeProject,
-} as Record<string, (args: string[]) => Promise<unknown>>
+} as Record<string, (args: string[], flags: string[]) => Promise<unknown>>
 
-async function createNodeProject(args: string[]) {
+async function createNodeProject(args: string[], flags: string[]) {
   const [pth, ...pkgs] = args
   const actualPath = pth ?? '.'
 
   // Initalize project at resolved path
   await initializePnpmProject(actualPath)
+
+  // Create Git repo if --git flag is present
+  if (flags.includes('git')) await initializeGit(actualPath)
 
   // Install typescript and types as dev dependencies
   await addPnpmPackages(['typescript', '@types/node'], actualPath, true)
@@ -40,7 +44,7 @@ async function createNodeProject(args: string[]) {
   await createFile('index.ts', srcPath, "console.log('Hi, Mom!')")
 }
 
-async function createReactApp(args: string[]) {
+async function createReactApp(args: string[], flags: string[]) {
   return new Promise<void>((resolve, reject) => {
     const [name] = args
 
@@ -89,7 +93,7 @@ async function execute(args: string[], flags: string[]) {
   const create = createOptions[framework]
 
   try {
-    await create(rest)
+    await create(rest, flags)
     // await setup()
   } catch (err) {
     Logger.error(err as string)
