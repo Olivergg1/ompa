@@ -71,3 +71,32 @@ ompa create node My-Awesome-App express vite ts-jest
 ```
 
 Note: _this is equivalent to writing "./My-Awesome-App"_
+
+### `password`
+
+Generates a random, strong password with a fixed size of 16 characters.
+
+#### Usage
+
+`password (--verbose|--no-copy)`
+
+- `--verbose` Logs the password to the console.
+- `--no-copy` Will not copy password to clipboard, but instead log the password to the console.
+
+#### Example
+
+To generate a random, strong password:
+
+```bash
+ompa password
+```
+
+The command above will generate a 16-characters long password and copy it to your clipboard.
+
+If you are on an unsupported platform, the copy to clipboard will fail. Instead, you can use the flag `--no-copy` to skip copying to clipboard and log the password to the console. This works similary to `--verbose`, however, `--verbose` will still try to copy your generated password to the clipboard.
+
+To skip the copying to clipboard, run the command below instead of the previous command:
+
+```bash
+ompa password --no-copy
+```
