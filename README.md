@@ -5,8 +5,9 @@
 ## Features (more to come)
 
 - Easy configuration of Git profiles, local and global.
-- Create projects with ease
-- Open source
+- Create projects with ease.
+- Random, strong password generator.
+- Open source.
 
 ## Setup
 
