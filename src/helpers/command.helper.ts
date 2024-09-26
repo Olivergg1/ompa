@@ -45,7 +45,7 @@ export async function getCommands() {
 
 // Check if an argument can be interpreted as a flag
 export function getFlag(arg: string) {
-  const match = arg.match(/^[-]{1,2}(\w*)/)
+  const match = arg.match(/^[-]{1,2}([\w-]*)/)
   const flag = match?.[1]
 
   return { isFlag: match !== null, flag }
